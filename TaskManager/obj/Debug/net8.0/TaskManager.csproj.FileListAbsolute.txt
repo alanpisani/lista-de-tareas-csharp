@@ -166,3 +166,4 @@ C:\Users\user\source\repos\TaskManager\TaskManager\obj\Debug\net8.0\refint\TaskM
 C:\Users\user\source\repos\TaskManager\TaskManager\obj\Debug\net8.0\TaskManager.pdb
 C:\Users\user\source\repos\TaskManager\TaskManager\obj\Debug\net8.0\TaskManager.genruntimeconfig.cache
 C:\Users\user\source\repos\TaskManager\TaskManager\obj\Debug\net8.0\ref\TaskManager.dll
+C:\Users\user\source\repos\TaskManager\TaskManager\obj\Debug\net8.0\TaskManager.sourcelink.json

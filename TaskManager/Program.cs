@@ -2,6 +2,8 @@ using TaskManager.Models;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Services;
 using TaskManager.Repositories;
+using Microsoft.AspNetCore.Identity;
+using TaskManager.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +19,9 @@ builder.Services.AddSession(options =>
 builder.Services.AddDbContext<TaskManagerDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TaskManagerConnection")));
 
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

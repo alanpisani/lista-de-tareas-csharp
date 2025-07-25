@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Interfaces;
 using TaskManager.Models;
-using TaskManager.Services;
 using TaskManager.ViewModel;
 
 namespace TaskManager.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserService _service;
+        private readonly IUserService _service;
 
-        public AccountController(UserService service)
+        public AccountController(IUserService service)
         {
             _service = service;
         }
@@ -31,7 +31,7 @@ namespace TaskManager.Controllers
 
             if ((bool) respuesta["todook"])
             {
-                int id = _service.retornarIdDelUsuario(viewModel.Username);
+                int id = _service.RetornarIdDelUsuario(viewModel.Username);
                 // Guardamos el usuario en sesión
                 HttpContext.Session.SetString("UserId", id.ToString());
                 HttpContext.Session.SetString("Username", viewModel.Username);

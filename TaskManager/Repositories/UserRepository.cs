@@ -1,8 +1,9 @@
-﻿using TaskManager.Models;
+﻿using TaskManager.Interfaces;
+using TaskManager.Models;
 
 namespace TaskManager.Repositories
 {
-    public class UserRepository
+    public class UserRepository:IUserRepository
     {
         private readonly TaskManagerDbContext _context;
 

@@ -6,9 +6,9 @@ namespace TaskManager.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly TaskManagerContext _context;
+        private readonly TaskManagerDbContext _context;
 
-        public CategoryController(TaskManagerContext context)
+        public CategoryController(TaskManagerDbContext context)
         {
             _context = context;
         }
