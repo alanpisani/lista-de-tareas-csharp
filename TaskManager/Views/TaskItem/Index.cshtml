@@ -1,0 +1,56 @@
+﻿@model List<TaskItem>
+
+@{
+    ViewData["Title"] = "TU LISTA DE TAREAS";
+
+    String CompleteTaskClass(TaskItem task)
+    {
+        if (task.IsCompleted)
+        {
+            return "bg-success text-white text-decoration-line-through";
+        }
+        return "";
+    }
+}
+
+<div class="d-flex flex-column gap-3">
+    <h2>@ViewData["Title"]</h2>
+
+    <table border="1" cellpadding="5" class=" table text-center">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Terminada</th>
+                <th>Categoría</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in Model)
+            {
+                <tr>
+                    <td class="@CompleteTaskClass(task)">@task.Title</td>
+                    <td class="@CompleteTaskClass(task)">@task.Description</td>
+                    <td>@(task.IsCompleted ? "✔" : "❌")</td>
+                    <td>@task.Category?.Name</td>
+                    <td class="d-flex justify-content-around align-items-center">
+                        <form asp-action="Update" method="get">
+                            <input type="hidden" name="id" value="@task.Id" />
+                            <button type="submit" class="btn btn-warning">Editar</button>
+                        </form>
+                        <form asp-action="DeleteConfirmed" method="post" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@task.Id" />
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('¿Estás seguro que querés eliminar la tarea @task.Title?');">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button class="btn btn-sm btn-primary align-self-center w-25 p-2" onclick="window.location.href='TaskItem/Create'">Crear tarea</button>
+</div>

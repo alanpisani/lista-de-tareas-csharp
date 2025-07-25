@@ -1,0 +1,40 @@
+﻿@model TaskManager.ViewModel.RegisterViewModel
+@{
+	ViewData["Title"] = "Registrarse";
+}
+
+<div class="d-flex flex-column justify-content-center align-items-center gap-3">
+	<h2>@ViewData["Title"]</h2>
+
+	<form asp-action="Register" method="POST" class="p-3 d-flex flex-column gap-3 w-50 card shadow">
+		<div class="form-group">
+			<label asp-for="Username">Nombre de usuario</label>
+			<input class="form-control" placeholder="Ingresá nombre de usuario" asp-for="Username" />
+			<span asp-validation-for="Username" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Email">Correo electrónico</label>
+			<input type="text" class="form-control" placeholder="Ingresá nombre de usuario" asp-for="Email" />
+			<span asp-validation-for="Email" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Password">Contraseña</label>
+			<input type="password" class="form-control" placeholder="Ingresá contraseña" asp-for="Password" />
+			<span asp-validation-for="Password" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="RepeatPassword">Repetir contraseña</label>
+			<input type="password" class="form-control" placeholder="Repetir contraseña" asp-for="RepeatPassword" />
+			<span asp-validation-for="RepeatPassword" class="text-danger"></span>
+		</div>
+		<button type="submit" class="btn btn-primary flex-grow-0 w-auto align-self-center">Registrarse</button>
+		@if (ViewBag.Error != null)
+		{
+			<div class="alert alert-danger">
+				@ViewBag.Error
+			</div>
+		}
+	</form>
+</div>
+
+
