@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using TaskManager.Models;
+using TaskManager.Validators;
 
 namespace TaskManager.Interfaces
 {
 	public interface IUserService
 	{
-		public bool RegistrarUsuario(User user);
+		public UserValidator RegistrarUsuario(User user);
 
-		public Dictionary<string, object> ConectarUsuario(String username, String password);
+		public UserValidator ConectarUsuario(String username, String password);
 
-		public int RetornarIdDelUsuario(string username);
-
-		public User? RetornarUsuarioPorUsername(String username);
 	}
 }

@@ -4,6 +4,7 @@ using TaskManager.Services;
 using TaskManager.Repositories;
 using Microsoft.AspNetCore.Identity;
 using TaskManager.Interfaces;
+using TaskManager.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 

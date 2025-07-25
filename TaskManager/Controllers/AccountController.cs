@@ -27,19 +27,18 @@ namespace TaskManager.Controllers
                 return View(viewModel);
             }
 
-			Dictionary<string, object> respuesta = _service.ConectarUsuario(viewModel.Username, viewModel.Password);
+			var respuesta = _service.ConectarUsuario(viewModel.Username, viewModel.Password);
 
-            if ((bool) respuesta["todook"])
+            if (respuesta.EsValido)
             {
-                int id = _service.RetornarIdDelUsuario(viewModel.Username);
                 // Guardamos el usuario en sesión
-                HttpContext.Session.SetString("UserId", id.ToString());
+                HttpContext.Session.SetString("UserId", respuesta.UsuarioId.ToString()!);
                 HttpContext.Session.SetString("Username", viewModel.Username);
 
                 return RedirectToAction("Index", "TaskItem");
             }
 
-            ViewBag.Error = respuesta["mensaje"].ToString();
+            ViewBag.Error = respuesta.Mensaje;
             return View();
         }
 
@@ -63,13 +62,13 @@ namespace TaskManager.Controllers
 				return View(registerView);
 			}
             var nuevoUser = new User(registerView.Username, registerView.Email, registerView.Password);
-            bool respuesta = _service.RegistrarUsuario(nuevoUser);
+            var respuesta = _service.RegistrarUsuario(nuevoUser);
 
-            if (respuesta)
+            if (respuesta.EsValido)
             {
                 return RedirectToAction("Login");
             }
-            ViewBag.Error = "Credenciales inválidas";
+            ViewBag.Error = respuesta.Mensaje;
             return View();
 
         }

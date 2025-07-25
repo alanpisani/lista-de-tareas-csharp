@@ -1,6 +1,7 @@
 ﻿using TaskManager.Models;
 using Microsoft.AspNetCore.Identity;
 using TaskManager.Interfaces;
+using TaskManager.Validators;
 
 namespace TaskManager.Services
 {
@@ -14,60 +15,33 @@ namespace TaskManager.Services
             _passwordHasher = passwordHasher;
         }
 
-        public bool RegistrarUsuario(User user)
+        public UserValidator RegistrarUsuario(User user)
         {
+            UserValidator validator = new();
 			var userInDb = _repository.GetByUsername(user.Username);
 
-            if(userInDb == null)
-            {
-                user.Password = _passwordHasher.HashPassword(user, user.Password!);
-                _repository.Add(user);
-                return true;
-            }
-            return false;
-        }
+            validator.ValidacionRegister(
+                usuarioEnBD: userInDb!
+                );
 
-        public Dictionary<string, object> ConectarUsuario(String username, String password)
-        {
-            var userInDb = _repository.GetByUsername(username);
-            var response = _validacionLogin(userInDb!, password);
-
-            return response;
-        }
-
-		private Dictionary<string, object> _validacionLogin(User userInDb, string passwordEnView)
-		{
-			Dictionary<string, object> response = new();
-			response["todook"] = false;
-
-			if (userInDb == null)
-			{
-				response["mensaje"] = "El usuario no existe";
-                return response;
+            if (validator.EsValido) {
+				_repository.Add(user);
 			}
-			var result = _passwordHasher.VerifyHashedPassword(userInDb!, userInDb!.Password!, passwordEnView);
-			if (result == PasswordVerificationResult.Failed)
-            {
-				response["mensaje"] = "La contraseña es incorrecta";
-                return response;
-				
-			}
+            return validator;
+        }
 
-			response["todook"] = true;
-			response["mensaje"] = "Accediste con éxito";
-            return response;
-		}
-
-		public int RetornarIdDelUsuario(string username)
+        public UserValidator ConectarUsuario(String username, String password)
         {
+			UserValidator validator = new();
             var userInDb = _repository.GetByUsername(username);
+            validator.ValidacionLogin(
+                usuarioEnBD: userInDb!, 
+                passwordEnView: password, 
+                passwordHasher: _passwordHasher
+                );
 
-            return userInDb!.Id;
+            return validator;
         }
 
-        public User? RetornarUsuarioPorUsername(String username)
-        {
-            return _repository.GetByUsername(username);
-        }
     }
 }
