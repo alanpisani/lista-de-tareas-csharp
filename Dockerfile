@@ -8,7 +8,7 @@ RUN dotnet restore
 
 COPY . .
 
-RUN dotnet publish TaskManager.csproj -c Release -o /app/publish
+RUN dotnet publish TaskManager/TaskManager.csproj -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
