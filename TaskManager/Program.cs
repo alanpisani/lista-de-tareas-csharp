@@ -7,6 +7,7 @@ using TaskManager.Interfaces;
 using TaskManager.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
+string connectionString = "Server=localhost;Database=taskmanagerdb;User=root;Password=;Port=3307";
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -18,7 +19,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 builder.Services.AddDbContext<TaskManagerDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("TaskManagerConnection")));
+    options.UseMySql(connectionString,
+		ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();

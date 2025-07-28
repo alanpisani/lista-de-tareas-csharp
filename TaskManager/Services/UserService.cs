@@ -25,6 +25,7 @@ namespace TaskManager.Services
                 );
 
             if (validator.EsValido) {
+                user.Password = _passwordHasher.HashPassword(user, user.Password!);
 				_repository.Add(user);
 			}
             return validator;

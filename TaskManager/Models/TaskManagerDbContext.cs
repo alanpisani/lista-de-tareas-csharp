@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace TaskManager.Models;
 
@@ -23,9 +24,11 @@ public partial class TaskManagerDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-E610KE2;Database=TaskManagerDB; Trusted_Connection=True; TrustServerCertificate=True");
+        => optionsBuilder.UseMySql("Server=localhost;Database=taskmanagerdb;User=root;Password=;Port=3307",
+	ServerVersion.AutoDetect("Server=localhost;Database=taskamanagerdb;User=root;Password=;Port=3307"));
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>(entity =>
         {
