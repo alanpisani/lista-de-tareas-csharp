@@ -7,7 +7,7 @@ using TaskManager.Interfaces;
 using TaskManager.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
-string connectionString = "Server=localhost;Database=taskmanagerdb;User=root;Password=;Port=3307";
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
