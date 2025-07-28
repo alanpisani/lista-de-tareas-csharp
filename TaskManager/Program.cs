@@ -5,6 +5,7 @@ using TaskManager.Repositories;
 using Microsoft.AspNetCore.Identity;
 using TaskManager.Interfaces;
 using TaskManager.Validators;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -21,6 +22,8 @@ builder.Services.AddSession(options =>
 builder.Services.AddDbContext<TaskManagerDbContext>(options =>
     options.UseMySql(connectionString,
 		ServerVersion.AutoDetect(connectionString)));
+
+builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("/app/keys")).SetApplicationName("TaskManagerApp");
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
